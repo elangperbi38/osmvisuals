@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>OSM Visuals | Fotografer & Videografer Jogja</title>
+  <title>OSM Visuals | Fotografer &amp; Videografer Jogja</title>
 
   <!-- ANTI INSPECT & ANTI CTRL+U SCRIPT -->
   <script>
-    // Disable Right Click
+    /* Disable Right Click */
     document.addEventListener('contextmenu', event => event.preventDefault());
     
-    // Disable Keyboard Shortcuts (F12, Ctrl+U, Ctrl+Shift+I, dll)
+    /* Disable Keyboard Shortcuts */
     document.onkeydown = function(e) {
-      if(e.keyCode == 123) { return false; } // F12
-      if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } // Ctrl+Shift+I
-      if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } // Ctrl+Shift+C
-      if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } // Ctrl+Shift+J
-      if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } // Ctrl+U
+      if(e.keyCode == 123) { return false; } /* F12 */
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) { return false; } /* Ctrl+Shift+I */
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) { return false; } /* Ctrl+Shift+C */
+      if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) { return false; } /* Ctrl+Shift+J */
+      if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) { return false; } /* Ctrl+U */
     }
   </script>
 
-  <!-- Tailwind CSS Configuration (Diletakkan sebelum script utama untuk mencegah ReferenceError) -->
+  <!-- Tailwind CSS Configuration -->
   <script>
     window.tailwind = {
       config: {
@@ -74,8 +74,8 @@
       margin: 0;
       overflow-x: hidden;
       cursor: none;
-      -webkit-user-select: none; /* Anti copas text di mobile */
-      user-select: none; /* Anti copas text di PC */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     h1, h2, h3, h4, .cinematic-font {
@@ -181,13 +181,13 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
     import { getFirestore, collection, addDoc, serverTimestamp, doc, setDoc } from 'firebase/firestore';
 
-    // =========================================================================
-    // PENGATURAN UTAMA ADMIN (SILAKAN GANTI DATA DI BAWAH INI SESUAI MILIK ANDA)
-    // =========================================================================
-    const ADMIN_WHATSAPP_NUMBER = "6281234567890"; // <- GANTI WA DISINI
+    /* ========================================================================= */
+    /* PENGATURAN UTAMA ADMIN (SILAKAN GANTI DATA DI BAWAH INI SESUAI MILIK ANDA) */
+    /* ========================================================================= */
+    const ADMIN_WHATSAPP_NUMBER = "6281234567890"; /* <- GANTI WA DISINI */
     const ADMIN_UID = "MASUKKAN_UID_ADMIN_ANDA_DISINI"; 
     const WEBHOOK_URL = "URL_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI";
-    // =========================================================================
+    /* ========================================================================= */
 
     const firebaseConfig = {
       apiKey: "AIzaSyBQEHBp7Un1AbsHhFttUlYiY3QeKtGRQrc",
@@ -209,7 +209,7 @@
       console.error("Firebase init error:", error);
     }
 
-    // --- COMPONENTS ---
+    /* --- COMPONENTS --- */
     const CinematicGrain = () => (
       <div 
         className="fixed inset-0 pointer-events-none z-[100] opacity-[0.04] hardware-accelerated"
@@ -283,15 +283,32 @@
             className="fixed top-0 left-0 right-0 z-[100] py-4 px-6 md:py-5 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
           >
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 pointer-events-auto">
-              {/* Header dikembalikan ke Ikon Kamera pertama */}
-              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-2 group">
-                <Camera className="w-6 h-6 text-[#00f3ff] transition-transform duration-300 group-hover:scale-110" />
+              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-2 md:gap-3 group">
+                <motion.img 
+                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                  alt="OSM Logo"
+                  className="w-6 h-6 object-contain transition-transform duration-300 group-hover:scale-110"
+                  animate={{ 
+                    filter: [
+                      "drop-shadow(0px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(0px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(0px -2px 1.5px #00f3ff)"
+                    ] 
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
                 <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center">
                   OSM<span className="text-[#00f3ff]">VISUALS</span>
                 </div>
               </a>
               <div className="hidden md:block w-[1px] h-4 bg-white/30"></div>
-              <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-neutral-300 mt-1 md:mt-0">Fotografer & Videografer Jogja</div>
+              <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-neutral-300 mt-1 md:mt-0">Fotografer &amp; Videografer Jogja</div>
             </div>
             <button onClick={() => setIsOpen(true)} className="pointer-events-auto w-12 h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-[#00f3ff] hover:border-[#00f3ff] hover:text-black transition-all duration-300 group magnetic">
               <Menu size={20} className="text-white group-hover:text-black transition-colors" />
@@ -539,7 +556,7 @@
       <section id="services" className="py-24 sm:py-32 relative z-10 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="mb-12 sm:mb-16">
           <span className="text-[#00f3ff] text-xs sm:text-sm uppercase tracking-[0.3em] font-bold">Capabilities</span>
-          <h2 className="cinematic-font text-4xl md:text-6xl font-bold mt-4">EXPERTISE IN<br/>MOTION & STILLS</h2>
+          <h2 className="cinematic-font text-4xl md:text-6xl font-bold mt-4">EXPERTISE IN<br/>MOTION &amp; STILLS</h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
@@ -633,8 +650,29 @@
             <div className="flex flex-col gap-4 p-8 glass-panel border border-neutral-800 rounded-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f3ff]/5 rounded-full blur-[40px] group-hover:bg-[#00f3ff]/10 transition-colors duration-500"></div>
               
-              <div className="cinematic-font text-3xl font-bold tracking-tighter relative z-10 text-white">
-                OSM<span className="text-[#00f3ff]">VISUALS</span>
+              <div className="relative z-10 flex items-center gap-2 md:gap-3">
+                <motion.img 
+                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                  alt="OSM Logo"
+                  className="w-6 h-6 object-contain"
+                  animate={{ 
+                    filter: [
+                      "drop-shadow(0px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(0px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(0px -2px 1.5px #00f3ff)"
+                    ] 
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+                <div className="cinematic-font text-2xl md:text-3xl font-bold tracking-tighter text-white">
+                  OSM<span className="text-[#00f3ff]">VISUALS</span>
+                </div>
               </div>
 
               <p className="text-neutral-400 text-sm leading-relaxed text-left relative z-10 mt-2">Sebuah agensi visual independen yang berdedikasi tinggi pada narasi sinematik dan estetika industrial yang premium.</p>
@@ -710,7 +748,7 @@
           }
           try {
             await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'CREATE_TRX', data: newTrx }) });
-          } catch (webhookError) {}
+          } catch (webhookError) {} /* Ignore fetch errors */
 
           const waText = `Halo tim OSM Visuals! 👋\nSaya ingin melakukan booking untuk project dokumentasi dengan detail berikut:\n\n👤 *Nama Klien:* ${formData.name}\n📞 *Nomor WA:* +${formData.whatsapp}\n\n*DETAIL PROJECT:*\n🎥 *Jenis Layanan:* ${formData.serviceName}\n📅 *Tanggal Acara:* ${formData.date}\n📍 *Lokasi / Venue:* ${formData.location}\n\n*CATATAN TAMBAHAN:*\n📝 "${formData.notes ? formData.notes : 'Tidak ada catatan tambahan'}"\n\nMohon informasinya terkait ketersediaan jadwal dan penawaran harganya. Terima kasih! ✨`;
           const waUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`; 
@@ -718,6 +756,7 @@
           setStatus('success');
           
           setTimeout(() => {
+            /* FIX: Menggunakan window.location.href agar pop-up blocker HP tidak menahan redirect WA */
             window.location.href = waUrl;
             onClose();
             setStatus('idle');
@@ -740,9 +779,29 @@
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-0 right-0 w-96 h-96 bg-[#00f3ff]/10 rounded-full blur-[80px] pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
                   
                   <div className="relative z-10 mb-4">
-                    <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center gap-2">
-                      <Camera className="w-8 h-8 text-[#00f3ff]" />
-                      OSM<span className="text-[#00f3ff]">VISUALS</span>
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <motion.img 
+                        src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                        alt="OSM Logo"
+                        className="w-8 h-8 object-contain"
+                        animate={{ 
+                          filter: [
+                            "drop-shadow(0px -2px 1.5px #00f3ff)",
+                            "drop-shadow(2px -2px 1.5px #00f3ff)",
+                            "drop-shadow(2px 0px 1.5px #00f3ff)",
+                            "drop-shadow(2px 2px 1.5px #00f3ff)",
+                            "drop-shadow(0px 2px 1.5px #00f3ff)",
+                            "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                            "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                            "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                            "drop-shadow(0px -2px 1.5px #00f3ff)"
+                          ] 
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      />
+                      <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center">
+                        OSM<span className="text-[#00f3ff]">VISUALS</span>
+                      </div>
                     </div>
                     <div className="mt-4 w-12 h-1 bg-[#00f3ff]"></div>
                   </div>
