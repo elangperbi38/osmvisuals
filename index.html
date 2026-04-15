@@ -540,7 +540,16 @@
     const ServiceCard = ({ title, icon: Icon, desc, index }) => {
       const [isHovered, setIsHovered] = useState(false);
       return (
-        <motion.div initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-10%" }} transition={{ duration: 0.8, delay: index * 0.1 }} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)} className="relative p-8 glass-panel rounded-sm border border-neutral-800 hover:border-[#00f3ff]/50 transition-colors duration-500 group overflow-hidden">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }} 
+          whileInView={{ opacity: 1, y: 0 }} 
+          viewport={{ once: true, margin: "-10%" }} 
+          transition={{ duration: 0.8, delay: index * 0.1 }} 
+          onMouseEnter={() => setIsHovered(true)} 
+          onMouseLeave={() => setIsHovered(false)} 
+          onClick={() => document.getElementById('portfolio').scrollIntoView({ behavior: 'smooth' })}
+          className="relative p-8 glass-panel rounded-sm border border-neutral-800 hover:border-[#00f3ff]/50 transition-colors duration-500 group overflow-hidden cursor-pointer"
+        >
           <motion.div className="absolute inset-0 bg-gradient-to-br from-[#00f3ff]/10 to-transparent opacity-0" animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 0.3 }} />
           <div className="relative z-10">
             <Icon className={`w-10 h-10 mb-6 transition-colors duration-300 ${isHovered ? 'text-[#00f3ff]' : 'text-neutral-500'}`} />
@@ -682,9 +691,9 @@
             <motion.div whileHover={{ y: -5 }} className="flex flex-col gap-2 p-8 bg-neutral-900/40 border border-neutral-800 border-l-2 border-l-[#00f3ff] rounded-sm relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(0,243,255,0.1)] transition-all duration-300 hardware-accelerated">
               <div className="absolute inset-0 bg-gradient-to-br from-[#00f3ff]/0 to-[#00f3ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <h4 className="text-[#00f3ff] text-xs font-bold uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#00f3ff] rounded-full inline-block"></span> Headquarters</h4>
-              <p className="text-neutral-300 text-sm relative z-10 font-medium">Jl. Kaliurang KM 5, Caturtunggal,</p>
-              <p className="text-neutral-400 text-sm relative z-10">Kec. Depok, Kabupaten Sleman,</p>
-              <p className="text-neutral-400 text-sm relative z-10">Yogyakarta 55281</p>
+              <p className="text-neutral-300 text-sm relative z-10 font-medium">Jl. Syekh Sewu, Timbulharjo</p>
+              <p className="text-neutral-400 text-sm relative z-10">Kec. Sewon, Kabupaten Bantul,</p>
+              <p className="text-neutral-400 text-sm relative z-10">Yogyakarta 55186</p>
             </motion.div>
             <motion.div whileHover={{ y: -5 }} className="flex flex-col gap-2 p-8 bg-neutral-900/40 border border-neutral-800 border-l-2 border-l-[#ff4d00] rounded-sm relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(255,77,0,0.1)] transition-all duration-300 hardware-accelerated">
               <div className="absolute inset-0 bg-gradient-to-br from-[#ff4d00]/0 to-[#ff4d00]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -707,7 +716,8 @@
     );
 
     const BookingModal = ({ isOpen, onClose }) => {
-      const [formData, setFormData] = useState({ name: '', whatsapp: '62', serviceId: '1', serviceName: 'Wedding', date: '', location: '', notes: '' });
+      // --- PERUBAHAN: Menambahkan variabel email: '' di dalam setFormData awal ---
+      const [formData, setFormData] = useState({ name: '', email: '', whatsapp: '62', serviceId: '1', serviceName: 'Wedding', date: '', location: '', notes: '' });
       const [status, setStatus] = useState('idle');
 
       const serviceOptions = [
@@ -737,7 +747,8 @@
         const clientId = Math.floor(Math.random() * 10000);
         const trxId = "TRX-WEB-" + Math.floor(Math.random() * 1000);
 
-        const newClient = { id: clientId, nama: formData.name, email: "-", telp: formData.whatsapp };
+        // --- PERUBAHAN: Memasukkan formData.email ke dalam newClient (Akan terisi "-" jika kosong) ---
+        const newClient = { id: clientId, nama: formData.name, email: formData.email || "-", telp: formData.whatsapp };
         const newTrx = {
           id: trxId, clientId: clientId, layananId: parseInt(formData.serviceId), tanggal: formData.date, lokasi: formData.location, catatan: formData.notes,
           harga: 0, diskon: 0, total: 0, bayarDp: 0, bayarPelunasan: 0, metodeBayar: "-", status: "Belum Bayar", progress: "Booking"
@@ -745,7 +756,6 @@
 
         try {
           if (db) {
-            // --- DIUBAH: Jalur diubah ke 'public', 'data' agar langsung masuk ke Dashboard Global tanpa nyangkut
             await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'public', 'data', 'clients', String(clientId)), newClient);
             await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'public', 'data', 'transaksi', String(trxId)), newTrx);
           }
@@ -754,7 +764,7 @@
             await fetch(WEBHOOK_URL, { 
               method: 'POST', 
               mode: 'no-cors',
-              redirect: 'follow', // <--- INI KUNCINYA
+              redirect: 'follow',
               headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
               body: JSON.stringify({ action: 'CREATE_TRX', data: newTrx }) 
             });
@@ -762,7 +772,7 @@
             console.error("Gagal mengirim ke Google Sheets:", webhookError);
           }
 
-          const waText = `Halo tim OSM Visuals! 👋\nSaya ingin melakukan booking untuk project dokumentasi dengan detail berikut:\n\n👤 *Nama Klien:* ${formData.name}\n📞 *Nomor WA:* +${formData.whatsapp}\n\n*DETAIL PROJECT:*\n🎥 *Jenis Layanan:* ${formData.serviceName}\n📅 *Tanggal Acara:* ${formData.date}\n📍 *Lokasi / Venue:* ${formData.location}\n\n*CATATAN TAMBAHAN:*\n📝 "${formData.notes ? formData.notes : 'Tidak ada catatan tambahan'}"\n\nMohon informasinya terkait ketersediaan jadwal dan penawaran harganya. Terima kasih! ✨`;
+          const waText = `Halo tim OSM Visuals! 👋\nSaya ingin melakukan booking untuk project dokumentasi dengan detail berikut:\n\n👤 *Nama Klien:* ${formData.name}\n📞 *Nomor WA:* +${formData.whatsapp}\n✉️ *Email:* ${formData.email || "-"}\n\n*DETAIL PROJECT:*\n🎥 *Jenis Layanan:* ${formData.serviceName}\n📅 *Tanggal Acara:* ${formData.date}\n📍 *Lokasi / Venue:* ${formData.location}\n\n*CATATAN TAMBAHAN:*\n📝 "${formData.notes ? formData.notes : 'Tidak ada catatan tambahan'}"\n\nMohon informasinya terkait ketersediaan jadwal dan penawaran harganya. Terima kasih! ✨`;
           const waUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`; 
 
           setStatus('success');
@@ -771,7 +781,8 @@
             window.location.href = waUrl;
             onClose();
             setStatus('idle');
-            setFormData({ name: '', whatsapp: '62', serviceId: '1', serviceName: 'Wedding', date: '', location: '', notes: '' });
+            // --- PERUBAHAN: Menambahkan reset untuk email ke string kosong ('') ---
+            setFormData({ name: '', email: '', whatsapp: '62', serviceId: '1', serviceName: 'Wedding', date: '', location: '', notes: '' });
           }, 1500);
         } catch (error) {
           console.error(error); setStatus('error');
@@ -848,6 +859,12 @@
                           <input required type="tel" name="whatsapp" id="inputWA" value={formData.whatsapp} onChange={handlePhoneChange} className="premium-input peer w-full bg-transparent border-b border-neutral-700 py-2 text-white text-base focus:border-[#00f3ff] outline-none transition-colors placeholder-transparent rounded-none" placeholder="628..." />
                           <label className="premium-label absolute left-0 top-4 text-neutral-500 text-sm font-medium uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left">WhatsApp Number</label>
                         </div>
+                      </div>
+
+                      {/* --- PERUBAHAN: TAMBAHAN INPUT EMAIL --- */}
+                      <div className="relative group pt-2">
+                        <input type="email" name="email" id="inputEmail" value={formData.email} onChange={handleChange} className="premium-input peer w-full bg-transparent border-b border-neutral-700 py-2 text-white text-base focus:border-[#00f3ff] outline-none transition-colors placeholder-transparent rounded-none" placeholder="john@example.com" />
+                        <label className="premium-label absolute left-0 top-4 text-neutral-500 text-sm font-medium uppercase tracking-widest pointer-events-none transition-all duration-300 origin-left">Alamat Email (Opsional)</label>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
