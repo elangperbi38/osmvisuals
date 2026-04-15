@@ -744,14 +744,25 @@
           harga: 0, diskon: 0, total: 0, bayarDp: 0, bayarPelunasan: 0, metodeBayar: "-", status: "Belum Bayar", progress: "Booking"
         };
 
-        try {
+       try {
           if (db) {
-            await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'users', ADMIN_UID, 'clients', String(clientId)), newClient);
-            await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'users', ADMIN_UID, 'transaksi', String(trxId)), newTrx);
+            // --- DIUBAH: Jalur diubah ke 'public', 'data' agar langsung masuk ke Dashboard Global tanpa nyangkut
+            await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'public', 'data', 'clients', String(clientId)), newClient);
+            await setDoc(doc(db, 'artifacts', 'dashboard-osmv', 'public', 'data', 'transaksi', String(trxId)), newTrx);
           }
+          
           try {
-            await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'CREATE_TRX', data: newTrx }) });
-          } catch (webhookError) {} /* Ignore fetch errors */
+            // --- DIUBAH: Penambahan redirect: 'follow' sangat krusial agar Google Sheet mau merekap datanya
+            await fetch(WEBHOOK_URL, { 
+              method: 'POST', 
+              mode: 'no-cors',
+              redirect: 'follow', // <--- INI KUNCINYA
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' }, 
+              body: JSON.stringify({ action: 'CREATE_TRX', data: newTrx }) 
+            });
+          } catch (webhookError) {
+            console.error("Gagal mengirim ke Google Sheets:", webhookError);
+          }
 
           const waText = `Halo tim OSM Visuals! 👋\nSaya ingin melakukan booking untuk project dokumentasi dengan detail berikut:\n\n👤 *Nama Klien:* ${formData.name}\n📞 *Nomor WA:* +${formData.whatsapp}\n\n*DETAIL PROJECT:*\n🎥 *Jenis Layanan:* ${formData.serviceName}\n📅 *Tanggal Acara:* ${formData.date}\n📍 *Lokasi / Venue:* ${formData.location}\n\n*CATATAN TAMBAHAN:*\n📝 "${formData.notes ? formData.notes : 'Tidak ada catatan tambahan'}"\n\nMohon informasinya terkait ketersediaan jadwal dan penawaran harganya. Terima kasih! ✨`;
           const waUrl = `https://wa.me/${ADMIN_WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`; 
@@ -759,7 +770,6 @@
           setStatus('success');
           
           setTimeout(() => {
-            /* FIX: Menggunakan window.location.href agar pop-up blocker HP tidak menahan redirect WA */
             window.location.href = waUrl;
             onClose();
             setStatus('idle');
@@ -768,7 +778,6 @@
         } catch (error) {
           console.error(error); setStatus('error');
         }
-      };
 
       return (
         <AnimatePresence>
