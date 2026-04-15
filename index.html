@@ -71,8 +71,8 @@
       margin: 0;
       overflow-x: hidden;
       cursor: none;
-      -webkit-user-select: none; /* Anti copas text di mobile */
-      user-select: none; /* Anti copas text di PC */
+      -webkit-user-select: none;
+      user-select: none;
     }
 
     h1, h2, h3, h4, .cinematic-font {
@@ -159,25 +159,16 @@
       50% { filter: brightness(1.3) drop-shadow(0 0 20px rgba(37,211,102,0.8)); }
     }
 
-    .wa-ripple-1 {
-      animation: waRipple 2.5s cubic-bezier(0.1, 0.5, 0.3, 1) infinite;
-    }
-    .wa-ripple-2 {
-      animation: waRipple 2.5s cubic-bezier(0.1, 0.5, 0.3, 1) 1.25s infinite;
-    }
-    .wa-float {
-      animation: waFloat 3.5s ease-in-out infinite;
-    }
-    .wa-pulse-glow {
-      animation: waPulseGlow 2.5s ease-in-out infinite;
-    }
+    .wa-ripple-1 { animation: waRipple 2.5s cubic-bezier(0.1, 0.5, 0.3, 1) infinite; }
+    .wa-ripple-2 { animation: waRipple 2.5s cubic-bezier(0.1, 0.5, 0.3, 1) 1.25s infinite; }
+    .wa-float { animation: waFloat 3.5s ease-in-out infinite; }
+    .wa-pulse-glow { animation: waPulseGlow 2.5s ease-in-out infinite; }
   </style>
 </head>
 <body>
   <div id="root"></div>
 
   <!-- MAIN REACT APPLICATION -->
-  <!-- PERBAIKAN BLANK HITAM: Penambahan data-presets="react" agar format module ES terbaca sempurna oleh browser -->
   <script type="text/babel" data-presets="react" data-type="module">
     import React, { useState, useEffect, useRef } from 'react';
     import { createRoot } from 'react-dom/client';
@@ -238,7 +229,7 @@
       useEffect(() => {
         if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) return;
         const updateMousePosition = (e) => { cursorX.set(e.clientX); cursorY.set(e.clientY); };
-        const handleMouseOver = (e) => { setIsHovering(!!e.target.closest('button, a, input, textarea, .magnetic, select')); };
+        const handleMouseOver = (e) => { setIsHovering(!!e.target.closest('button, a, input, textarea, .magnetic, select, img')); };
         window.addEventListener('mousemove', updateMousePosition, { passive: true });
         window.addEventListener('mouseover', handleMouseOver, { passive: true });
         return () => {
@@ -286,14 +277,37 @@
         <>
           <motion.header 
             initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 1 }}
-            className="fixed top-0 left-0 right-0 z-[100] p-6 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
+            className="fixed top-0 left-0 right-0 z-[100] py-4 px-6 md:py-5 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-4 pointer-events-auto">
-              <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center gap-2">
-                <Camera className="w-6 h-6 text-[#00f3ff]" /> OSM<span className="text-[#00f3ff]">VISUALS</span>
-              </div>
+            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 pointer-events-auto">
+              {/* PERBAIKAN SPASI: Menggunakan gap-2 md:gap-3 agar jarak logo dan teks rapi */}
+              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-2 md:gap-3 group">
+                <motion.img 
+                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                  alt="OSM Logo"
+                  className="h-16 md:h-24 object-contain cursor-pointer relative z-10 transition-transform duration-300 group-hover:scale-105"
+                  animate={{ 
+                    filter: [
+                      "drop-shadow(0px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(0px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(0px -2px 1.5px #00f3ff)"
+                    ] 
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+                {/* PERBAIKAN: Margin negatif dihapus agar spasi terlihat profesional */}
+                <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center">
+                  OSM<span className="text-[#00f3ff]">VISUALS</span>
+                </div>
+              </a>
               <div className="hidden md:block w-[1px] h-4 bg-white/30"></div>
-              <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-neutral-300">Fotografer & Videografer Jogja</div>
+              <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-neutral-300 mt-1 md:mt-0">Fotografer & Videografer Jogja</div>
             </div>
             <button onClick={() => setIsOpen(true)} className="pointer-events-auto w-12 h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-[#00f3ff] hover:border-[#00f3ff] hover:text-black transition-all duration-300 group magnetic">
               <Menu size={20} className="text-white group-hover:text-black transition-colors" />
@@ -341,7 +355,6 @@
           rel="noreferrer" 
           className="fixed bottom-6 right-6 sm:bottom-8 sm:right-8 z-[1000] group flex items-center justify-center wa-float hw-accel"
         >
-          {/* Efek CSS Gelombang dan Cahaya Anti-Lag */}
           <div className="absolute w-full h-full bg-[#25D366] rounded-full pointer-events-none wa-ripple-1 hw-accel"></div>
           <div className="absolute w-full h-full bg-[#25D366] rounded-full pointer-events-none wa-ripple-2 hw-accel"></div>
           <div className="absolute inset-0 bg-[#25D366] rounded-full opacity-80 group-hover:opacity-100 transition-opacity duration-300 wa-pulse-glow hw-accel"></div>
@@ -436,19 +449,16 @@
       return (
         <motion.div initial={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.05 }} transition={{ duration: 1.2, ease: "easeInOut" }} className="fixed inset-0 z-[1000] bg-[#050505] flex flex-col items-center justify-center hardware-accelerated">
           
-          {/* ANIMASI OUTLINE FILL BARU YANG KEREN */}
           <motion.div 
             animate={{ scale: [0.98, 1.02, 0.98] }} 
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             className="relative cinematic-font text-5xl md:text-7xl font-bold tracking-widest flex gap-3 md:gap-5 mb-8"
           >
-            {/* Outline Layer (Background Text) */}
             <div className="flex gap-3 md:gap-5 text-transparent">
               <span style={{ WebkitTextStroke: '1.5px rgba(255,255,255,0.4)' }}>OSM</span>
               <span style={{ WebkitTextStroke: '1.5px rgba(0,243,255,0.4)' }}>VISUALS</span>
             </div>
 
-            {/* Solid Layer (Fills up like water based on progress percentage) */}
             <div 
               className="absolute top-0 left-0 flex gap-3 md:gap-5 whitespace-nowrap overflow-hidden transition-all duration-100 ease-linear"
               style={{ clipPath: `inset(0 ${100 - progress}% 0 0)` }}
@@ -474,13 +484,24 @@
             <source src="https://player.vimeo.com/external/477432822.sd.mp4?s=d1df003554e20ef9aeb3c4f55bb8a4d701046777&profile_id=164&oauth2_token_id=57447761" type="video/mp4" />
           </video>
           <div className="video-overlay-gradient"></div>
-          <div className="z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center">
-            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5, ease: "easeOut" }} className="inline-block px-4 py-1.5 mb-6 rounded-full border border-white/10 glass-panel text-[10px] sm:text-xs tracking-widest uppercase text-neutral-300">Cinematic Agency</motion.div>
-            <motion.h1 className="cinematic-font text-[11vw] sm:text-6xl md:text-8xl lg:text-9xl font-bold uppercase tracking-tighter leading-[1.1] sm:leading-none text-glow hardware-accelerated flex flex-col items-center" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
+          
+          {/* PERBAIKAN SPASING HERO: Menyesuaikan padding-top agar berada persis di tengah dan bebas tabrakan */}
+          <div className="z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 md:pt-32">
+            {/* Teks Cinematic Agency diperkecil sedikit di desktop agar rapi md:text-[11px] */}
+            <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5, ease: "easeOut" }} className="inline-block px-4 py-1.5 mb-6 md:mb-8 rounded-full border border-white/10 glass-panel text-[10px] md:text-[11px] tracking-widest uppercase text-neutral-300">
+              Cinematic Agency
+            </motion.div>
+            
+            {/* PERBAIKAN UKURAN TEKS UTAMA (Desktop): Diperkecil menjadi md:text-6xl lg:text-[5.5rem] */}
+            <motion.h1 className="cinematic-font text-[11vw] sm:text-5xl md:text-6xl lg:text-[5.5rem] font-bold uppercase tracking-tighter leading-[1.1] md:leading-[1.1] text-glow hardware-accelerated flex flex-col items-center" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.5, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
               <span>Capture <span className="text-transparent bg-clip-text bg-gradient-to-r from-neutral-300 to-neutral-700">Moments.</span></span>
               <span className="flex">Create&nbsp;<motion.span animate={{ y: [0, -12, 0], filter: ['brightness(1)', 'brightness(1.5)', 'brightness(1)'] }} transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }} className="text-[#00f3ff] neon-text-blue inline-block">Stories.</motion.span></span>
             </motion.h1>
-            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1 }} className="mt-6 sm:mt-8 text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed px-2 sm:px-0 text-center relative z-20">We blend industrial aesthetics with cinematic storytelling to create immersive visual experiences that leave a lasting mark.</motion.p>
+            
+            <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1, delay: 1 }} className="mt-6 md:mt-8 text-neutral-400 max-w-lg mx-auto text-sm md:text-base leading-relaxed px-2 sm:px-0 text-center relative z-20">
+              We blend industrial aesthetics with cinematic storytelling to create immersive visual experiences that leave a lasting mark.
+            </motion.p>
+            
             <div className="mt-10 sm:mt-12 flex flex-col items-center gap-8 sm:gap-10 w-full relative z-20">
               <motion.div className="flex flex-col items-center gap-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.5, duration: 1 }}>
                 <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.2em] text-neutral-500">Scroll</span>
@@ -630,7 +651,34 @@
           <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.8 }} className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-16 border-b border-white/5">
             <div className="flex flex-col gap-4 p-8 glass-panel border border-neutral-800 rounded-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f3ff]/5 rounded-full blur-[40px] group-hover:bg-[#00f3ff]/10 transition-colors duration-500"></div>
-              <div className="cinematic-font text-3xl font-bold tracking-tighter relative z-10">OSM<span className="text-neutral-600">VISUALS</span></div>
+              
+              {/* PERBAIKAN SPASI FOOTER: gap-2 md:gap-3 */}
+              <div className="relative z-10 flex items-center gap-2 md:gap-3">
+                <motion.img 
+                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                  alt="OSM Logo"
+                  className="h-8 md:h-10 object-contain"
+                  animate={{ 
+                    filter: [
+                      "drop-shadow(0px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(0px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                      "drop-shadow(0px -2px 1.5px #00f3ff)"
+                    ] 
+                  }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                />
+                {/* PERBAIKAN: Hapus margin negatif */}
+                <div className="cinematic-font text-2xl md:text-3xl font-bold tracking-tighter text-white">
+                  OSM<span className="text-[#00f3ff]">VISUALS</span>
+                </div>
+              </div>
+
               <p className="text-neutral-400 text-sm leading-relaxed text-left relative z-10 mt-2">Sebuah agensi visual independen yang berdedikasi tinggi pada narasi sinematik dan estetika industrial yang premium.</p>
             </div>
             <motion.div whileHover={{ y: -5 }} className="flex flex-col gap-2 p-8 bg-neutral-900/40 border border-neutral-800 border-l-2 border-l-[#00f3ff] rounded-sm relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(0,243,255,0.1)] transition-all duration-300 hardware-accelerated">
@@ -732,10 +780,37 @@
                   <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1605634599763-79177b94b005?q=80&w=800&auto=format&fit=crop')] bg-cover bg-center opacity-30 mix-blend-luminosity grayscale pointer-events-none"></div>
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none"></div>
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-0 right-0 w-96 h-96 bg-[#00f3ff]/10 rounded-full blur-[80px] pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
-                  <div className="relative z-10">
-                    <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center gap-2"><Camera className="w-8 h-8 text-[#00f3ff]" /> OSM<span className="text-[#00f3ff]">VISUALS</span></div>
+                  
+                  <div className="relative z-10 mb-4">
+                    {/* PERBAIKAN SPASI BOOKING MODAL: gap-2 md:gap-3 */}
+                    <div className="flex items-center gap-2 md:gap-3">
+                      <motion.img 
+                        src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
+                        alt="OSM Logo"
+                        className="h-8 md:h-10 object-contain"
+                        animate={{ 
+                          filter: [
+                            "drop-shadow(0px -2px 1.5px #00f3ff)",
+                            "drop-shadow(2px -2px 1.5px #00f3ff)",
+                            "drop-shadow(2px 0px 1.5px #00f3ff)",
+                            "drop-shadow(2px 2px 1.5px #00f3ff)",
+                            "drop-shadow(0px 2px 1.5px #00f3ff)",
+                            "drop-shadow(-2px 2px 1.5px #00f3ff)",
+                            "drop-shadow(-2px 0px 1.5px #00f3ff)",
+                            "drop-shadow(-2px -2px 1.5px #00f3ff)",
+                            "drop-shadow(0px -2px 1.5px #00f3ff)"
+                          ] 
+                        }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                      />
+                      {/* PERBAIKAN: Hapus margin negatif */}
+                      <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center">
+                        OSM<span className="text-[#00f3ff]">VISUALS</span>
+                      </div>
+                    </div>
                     <div className="mt-4 w-12 h-1 bg-[#00f3ff]"></div>
                   </div>
+
                   <div className="relative z-10 mt-auto">
                     <h3 className="cinematic-font text-4xl font-bold mb-4 uppercase tracking-tighter leading-none text-white text-glow">Crafting<br/>Your<br/><span className="text-[#00f3ff] neon-text-blue drop-shadow-[0_0_15px_rgba(0,243,255,1)]">Legacy</span></h3>
                     <p className="text-neutral-300 text-sm leading-relaxed mb-6">Platform booking eksklusif. Jadwalkan sesi Anda dan biarkan kami mengubah momen Anda menjadi mahakarya visual abadi.</p>
