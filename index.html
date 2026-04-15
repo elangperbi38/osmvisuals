@@ -282,12 +282,14 @@
             initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 1 }}
             className="fixed top-0 left-0 right-0 z-[100] py-2 px-6 md:py-3 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
           >
-            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 pointer-events-auto">
-              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-1 group">
+            {/* PERBAIKAN RESPONSIVE MOBILE: items-start dan gap-0 agar teks bawah bisa dirapatkan ke atas */}
+            <div className="flex flex-col items-start md:flex-row md:items-center gap-0 md:gap-6 pointer-events-auto">
+              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-1.5 md:gap-2 group">
+                {/* PERBAIKAN LOGO MOBILE: Mengecilkan logo dari h-16 menjadi h-10 khusus di layar HP */}
                 <motion.img 
                   src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                   alt="OSM Logo"
-                  className="h-16 md:h-20 object-contain cursor-pointer relative z-10 transition-transform duration-300 group-hover:scale-105"
+                  className="h-10 md:h-20 object-contain cursor-pointer relative z-10 transition-transform duration-300 group-hover:scale-105"
                   animate={{ 
                     filter: [
                       "drop-shadow(0px -2px 1.5px #00f3ff)",
@@ -303,12 +305,13 @@
                   }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
                 />
-                <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center">
+                <div className="text-white font-bold text-lg md:text-2xl tracking-widest cinematic-font text-glow flex items-center">
                   OSM<span className="text-[#00f3ff]">VISUALS</span>
                 </div>
               </a>
               <div className="hidden md:block w-[1px] h-4 bg-white/30"></div>
-              <div className="text-[10px] md:text-xs uppercase tracking-[0.2em] text-neutral-300 mt-1 md:mt-0">Fotografer &amp; Videografer Jogja</div>
+              {/* PERBAIKAN SPASI SUBTITLE MOBILE: Menambahkan margin negatif (-mt-1) agar tertarik ke atas mepet logo */}
+              <div className="text-[9px] md:text-xs uppercase tracking-[0.2em] text-neutral-300 -mt-1 md:mt-0 pl-1 md:pl-0">Fotografer &amp; Videografer Jogja</div>
             </div>
             <button onClick={() => setIsOpen(true)} className="pointer-events-auto w-12 h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-md flex items-center justify-center hover:bg-[#00f3ff] hover:border-[#00f3ff] hover:text-black transition-all duration-300 group magnetic">
               <Menu size={20} className="text-white group-hover:text-black transition-colors" />
@@ -650,11 +653,11 @@
             <div className="flex flex-col gap-4 p-8 glass-panel border border-neutral-800 rounded-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f3ff]/5 rounded-full blur-[40px] group-hover:bg-[#00f3ff]/10 transition-colors duration-500"></div>
               
-              <div className="relative z-10 flex items-center gap-1">
+              <div className="relative z-10 flex items-center gap-1.5 md:gap-2">
                 <motion.img 
                   src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                   alt="OSM Logo"
-                  className="h-14 md:h-20 object-contain"
+                  className="h-10 md:h-20 object-contain"
                   animate={{ 
                     filter: [
                       "drop-shadow(0px -2px 1.5px #00f3ff)",
@@ -680,9 +683,9 @@
             <motion.div whileHover={{ y: -5 }} className="flex flex-col gap-2 p-8 bg-neutral-900/40 border border-neutral-800 border-l-2 border-l-[#00f3ff] rounded-sm relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(0,243,255,0.1)] transition-all duration-300 hardware-accelerated">
               <div className="absolute inset-0 bg-gradient-to-br from-[#00f3ff]/0 to-[#00f3ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               <h4 className="text-[#00f3ff] text-xs font-bold uppercase tracking-widest mb-3 relative z-10 flex items-center gap-2"><span className="w-1.5 h-1.5 bg-[#00f3ff] rounded-full inline-block"></span> Headquarters</h4>
-              <p className="text-neutral-300 text-sm relative z-10 font-medium">Jl. Kaliurang KM 5, Caturtunggal,</p>
-              <p className="text-neutral-400 text-sm relative z-10">Kec. Depok, Kabupaten Sleman,</p>
-              <p className="text-neutral-400 text-sm relative z-10">Yogyakarta 55281</p>
+              <p className="text-neutral-300 text-sm relative z-10 font-medium">Jl. Syekh Sewu, Timbulharjo,</p>
+              <p className="text-neutral-400 text-sm relative z-10">Kec. Sewon, Kabupaten Bantul,</p>
+              <p className="text-neutral-400 text-sm relative z-10">Yogyakarta 55186</p>
             </motion.div>
             <motion.div whileHover={{ y: -5 }} className="flex flex-col gap-2 p-8 bg-neutral-900/40 border border-neutral-800 border-l-2 border-l-[#ff4d00] rounded-sm relative overflow-hidden group shadow-[0_10px_30px_rgba(0,0,0,0.3)] hover:shadow-[0_10px_40px_rgba(255,77,0,0.1)] transition-all duration-300 hardware-accelerated">
               <div className="absolute inset-0 bg-gradient-to-br from-[#ff4d00]/0 to-[#ff4d00]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -779,11 +782,11 @@
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-0 right-0 w-96 h-96 bg-[#00f3ff]/10 rounded-full blur-[80px] pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
                   
                   <div className="relative z-10 mb-4">
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5 md:gap-2">
                       <motion.img 
                         src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                         alt="OSM Logo"
-                        className="h-14 md:h-20 object-contain"
+                        className="h-10 md:h-20 object-contain"
                         animate={{ 
                           filter: [
                             "drop-shadow(0px -2px 1.5px #00f3ff)",
