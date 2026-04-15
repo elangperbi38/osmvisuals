@@ -280,14 +280,14 @@
         <>
           <motion.header 
             initial={{ y: -100, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ duration: 1, delay: 1 }}
-            className="fixed top-0 left-0 right-0 z-[100] py-4 px-6 md:py-5 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
+            className="fixed top-0 left-0 right-0 z-[100] py-2 px-6 md:py-3 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
           >
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 pointer-events-auto">
-              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-2 md:gap-3 group">
+              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-1 group">
                 <motion.img 
                   src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                   alt="OSM Logo"
-                  className="w-6 h-6 object-contain transition-transform duration-300 group-hover:scale-110"
+                  className="h-16 md:h-20 object-contain cursor-pointer relative z-10 transition-transform duration-300 group-hover:scale-105"
                   animate={{ 
                     filter: [
                       "drop-shadow(0px -2px 1.5px #00f3ff)",
@@ -650,11 +650,11 @@
             <div className="flex flex-col gap-4 p-8 glass-panel border border-neutral-800 rounded-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f3ff]/5 rounded-full blur-[40px] group-hover:bg-[#00f3ff]/10 transition-colors duration-500"></div>
               
-              <div className="relative z-10 flex items-center gap-2 md:gap-3">
+              <div className="relative z-10 flex items-center gap-1">
                 <motion.img 
                   src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                   alt="OSM Logo"
-                  className="w-6 h-6 object-contain"
+                  className="h-14 md:h-20 object-contain"
                   animate={{ 
                     filter: [
                       "drop-shadow(0px -2px 1.5px #00f3ff)",
@@ -779,11 +779,11 @@
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-0 right-0 w-96 h-96 bg-[#00f3ff]/10 rounded-full blur-[80px] pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
                   
                   <div className="relative z-10 mb-4">
-                    <div className="flex items-center gap-2 md:gap-3">
+                    <div className="flex items-center gap-1">
                       <motion.img 
                         src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
                         alt="OSM Logo"
-                        className="w-8 h-8 object-contain"
+                        className="h-14 md:h-20 object-contain"
                         animate={{ 
                           filter: [
                             "drop-shadow(0px -2px 1.5px #00f3ff)",
