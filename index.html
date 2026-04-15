@@ -74,8 +74,8 @@
       margin: 0;
       overflow-x: hidden;
       cursor: none;
-      -webkit-user-select: none;
-      user-select: none;
+      -webkit-user-select: none; /* Anti copas text di mobile */
+      user-select: none; /* Anti copas text di PC */
     }
 
     h1, h2, h3, h4, .cinematic-font {
@@ -283,27 +283,10 @@
             className="fixed top-0 left-0 right-0 z-[100] py-4 px-6 md:py-5 md:px-10 flex justify-between items-center bg-gradient-to-b from-black/80 via-black/40 to-transparent pointer-events-none"
           >
             <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-6 pointer-events-auto">
-              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-1 group">
-                <motion.img 
-                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
-                  alt="OSM Logo"
-                  className="h-10 md:h-14 object-contain cursor-pointer relative z-10 transition-transform duration-300 group-hover:scale-105"
-                  animate={{ 
-                    filter: [
-                      "drop-shadow(0px -2px 1.5px #00f3ff)",
-                      "drop-shadow(2px -2px 1.5px #00f3ff)",
-                      "drop-shadow(2px 0px 1.5px #00f3ff)",
-                      "drop-shadow(2px 2px 1.5px #00f3ff)",
-                      "drop-shadow(0px 2px 1.5px #00f3ff)",
-                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
-                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
-                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
-                      "drop-shadow(0px -2px 1.5px #00f3ff)"
-                    ] 
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                />
-                <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center -ml-2">
+              {/* Header dikembalikan ke Ikon Kamera pertama */}
+              <a href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero'); }} className="flex items-center gap-2 group">
+                <Camera className="w-6 h-6 text-[#00f3ff] transition-transform duration-300 group-hover:scale-110" />
+                <div className="text-white font-bold text-xl md:text-2xl tracking-widest cinematic-font text-glow flex items-center">
                   OSM<span className="text-[#00f3ff]">VISUALS</span>
                 </div>
               </a>
@@ -486,7 +469,7 @@
           </video>
           <div className="video-overlay-gradient"></div>
           
-          <div className="z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-28 md:pt-32">
+          <div className="z-10 text-center px-6 w-full max-w-5xl mx-auto flex flex-col items-center pt-24 md:pt-40">
             <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1, delay: 0.5, ease: "easeOut" }} className="inline-block px-4 py-1.5 mb-6 md:mb-8 rounded-full border border-white/10 glass-panel text-[10px] md:text-[11px] tracking-widest uppercase text-neutral-300">
               Cinematic Agency
             </motion.div>
@@ -650,29 +633,8 @@
             <div className="flex flex-col gap-4 p-8 glass-panel border border-neutral-800 rounded-sm relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f3ff]/5 rounded-full blur-[40px] group-hover:bg-[#00f3ff]/10 transition-colors duration-500"></div>
               
-              <div className="relative z-10 flex items-center gap-1">
-                <motion.img 
-                  src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
-                  alt="OSM Logo"
-                  className="h-10 md:h-14 object-contain"
-                  animate={{ 
-                    filter: [
-                      "drop-shadow(0px -2px 1.5px #00f3ff)",
-                      "drop-shadow(2px -2px 1.5px #00f3ff)",
-                      "drop-shadow(2px 0px 1.5px #00f3ff)",
-                      "drop-shadow(2px 2px 1.5px #00f3ff)",
-                      "drop-shadow(0px 2px 1.5px #00f3ff)",
-                      "drop-shadow(-2px 2px 1.5px #00f3ff)",
-                      "drop-shadow(-2px 0px 1.5px #00f3ff)",
-                      "drop-shadow(-2px -2px 1.5px #00f3ff)",
-                      "drop-shadow(0px -2px 1.5px #00f3ff)"
-                    ] 
-                  }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                />
-                <div className="cinematic-font text-2xl md:text-3xl font-bold tracking-tighter text-white -ml-2">
-                  OSM<span className="text-[#00f3ff]">VISUALS</span>
-                </div>
+              <div className="cinematic-font text-3xl font-bold tracking-tighter relative z-10 text-white">
+                OSM<span className="text-[#00f3ff]">VISUALS</span>
               </div>
 
               <p className="text-neutral-400 text-sm leading-relaxed text-left relative z-10 mt-2">Sebuah agensi visual independen yang berdedikasi tinggi pada narasi sinematik dan estetika industrial yang premium.</p>
@@ -778,29 +740,9 @@
                   <motion.div animate={{ rotate: 360 }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }} className="absolute top-0 right-0 w-96 h-96 bg-[#00f3ff]/10 rounded-full blur-[80px] pointer-events-none transform translate-x-1/2 -translate-y-1/2" />
                   
                   <div className="relative z-10 mb-4">
-                    <div className="flex items-center gap-1">
-                      <motion.img 
-                        src="https://res.cloudinary.com/dsqqutdgv/image/upload/v1776096889/OSM_LOGO_copy_uumugg.png" 
-                        alt="OSM Logo"
-                        className="h-10 md:h-14 object-contain"
-                        animate={{ 
-                          filter: [
-                            "drop-shadow(0px -2px 1.5px #00f3ff)",
-                            "drop-shadow(2px -2px 1.5px #00f3ff)",
-                            "drop-shadow(2px 0px 1.5px #00f3ff)",
-                            "drop-shadow(2px 2px 1.5px #00f3ff)",
-                            "drop-shadow(0px 2px 1.5px #00f3ff)",
-                            "drop-shadow(-2px 2px 1.5px #00f3ff)",
-                            "drop-shadow(-2px 0px 1.5px #00f3ff)",
-                            "drop-shadow(-2px -2px 1.5px #00f3ff)",
-                            "drop-shadow(0px -2px 1.5px #00f3ff)"
-                          ] 
-                        }}
-                        transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                      />
-                      <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center -ml-2">
-                        OSM<span className="text-[#00f3ff]">VISUALS</span>
-                      </div>
+                    <div className="text-white font-bold text-2xl tracking-widest cinematic-font text-glow flex items-center gap-2">
+                      <Camera className="w-8 h-8 text-[#00f3ff]" />
+                      OSM<span className="text-[#00f3ff]">VISUALS</span>
                     </div>
                     <div className="mt-4 w-12 h-1 bg-[#00f3ff]"></div>
                   </div>
